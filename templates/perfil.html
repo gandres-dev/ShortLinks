@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>Bienvenido {{username}}</h1>
+    Ligas publicas
+    <ul>
+        <li>Liga1</li>
+        <li>Liga2</li>
+    </ul>
+
+    <form action="{{url_for('add_link')}}">
+        <button>Agregar nuevo link</button>
+    </form>
+
+    <form action="{{url_for('tablero')}}">
+        <button>Ir al tablero</button>
+    </form>
+
+</body>
+</html>

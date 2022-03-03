@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <form action="{{url_for('add_link')}}" method="POST">
+
+        <div>
+            Link original
+            <input type="text" name='url_largo'>
+        </div>
+        
+        <div>
+            Liga publica <input type="radio" id="publico" name="ligas" value="publico" checked>
+            Liga privada <input type="radio" id="privado" name="ligas" value="privado">
+        </div>
+        
+
+        Categoria
+        <select name="categoria">
+            <option value="Musica">Musica</option>
+            <option value="Educacion">Educacion</option>
+            <option value="Ciencia">Ciencia</option>
+        </select>
+
+        <div>
+            <input type="submit">
+        </div>
+        
+    </form>
+
+</body>
+</html>
