@@ -1,27 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shortlinks</title>
-</head>
-<body>
+{%extends "layout.html" %}
+
+{%block body %}
+
+<div class="container">
+    <div class="columns">
+        <form class="column is-half" action="{{url_for('registrarse')}}" method="POST">
+            <div class="field">
+                Username <input class="input" type="text" name="username" placeholder="Ingrese su nombre">             
+            </div>
+            
+            <div class="field">
+                Password <br>
+                <input class="input" type="password" name="password" placeholder="*******">
+            </div>
     
-    <form action="{{url_for('registrarse')}}" method="POST">
-        <div>
-            Username <input type="text" name="username" placeholder="Ingrese su nombre"> 
-            Age <input type="numbers" name="age">
-        </div>
-        
-        <div>
-            Password <br>
-            <input type="password" name="password">
-        </div>
+            <input class="button is-success"type="submit" value="Registrarse">
+        </form>
+    </div>
 
-        <input type="submit" value="Registrarse">
+</div>
+    
 
-    </form>
-
-</body>
-</html>
+{%endblock%}

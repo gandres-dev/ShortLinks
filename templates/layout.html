@@ -5,12 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShorLinks</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
 <body>
-    
+    <nav class="level has-background-primary">
+        <div class="level-item">            
+            <h1 class="title is-2 has-text-light ">Short links</h1>
+            <a href="/"><img class="ml-1" src="{{url_for('static', filename='link_yellow2.png')}}" alt="link_icon"  width="50" height="28"></a>
+        </div>
+    </nav>
+
     {% block body%}
     
     {% endblock%}
 
+    <!-- <footer class="footer">
+        <div class="content has-text-centered">
+          <p>
+            The source code is licensed
+            <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+            is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+          </p>
+        </div>
+    </footer> -->
 </body>
 </html>

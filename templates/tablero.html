@@ -1,26 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h2>Ligas publicas más populares {{ligas_publicas}}</h1>
-    <ul>
-        <li>Liga 1</li>
-        <li>Liga n</li>
-    </ul>
+{%extends "layout.html"%}
 
-    <h2>Categoria 1</h2>
-    <ul>
-        <li>Liga 1</li>
-        <li>Liga n</li>
-    </ul>
+{%block body%}
+<div class="container">
+    <div class="columns is-variable is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd">
+        <div class="column card">
+            <header class="card-header">
+              <p class="card-header-title">Ligas públicas más populares</p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <ul>
+                    <li><a href="#">https://bit.ly/36Yvv9W</a>
+                        <span class="tag is-link is-warning">Musica</span></li>
+                </ul>              
+              </div>
+            </div>
+          </div>
+    
+          <div class="column card">
+            <header class="card-header">
+              <p class="card-header-title">Categoria 1</p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <ul>
+                    <li><a href="#">https://bit.ly/36Yvv9W</a> 
+                        <span class="tag is-link is-info">Ciencia</span></li>
+                </ul>              
+              </div>
+            </div>
+          </div>
 
-    <form action="{{url_for('perfil')}}">
-        <button>Ir a perfil</button>
-    </form>
-</body>
-</html>
+          <div class="column card">
+            <header class="card-header">
+              <p class="card-header-title">Categoria 2</p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <ul>
+                    <li><a href="#">https://bit.ly/36Yvv9W</a> 
+                        <span class="tag is-link is-info">Ciencia</span></li>
+                </ul>              
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+
+<div class="level  mt-6">
+    <div class="level-item">
+        <form action="{{url_for('perfil')}}">
+            <button class="button is-info">Ir a perfil</button>
+        </form>
+    </div>
+</div>
+
+
+{%endblock%}

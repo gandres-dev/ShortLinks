@@ -2,18 +2,25 @@
 
 
 {% block body%}
-<div>
-    Cargando ... 
+
+<div class="level">
+    <div class="level-item">
+        <div class="field">
+            <h2 class="title is-4">URL reducida</h2>
+            <input class="input" type="text" value="bit.ly/sda12h">
+        </div>    
+    </div>    
 </div>
 
-<div>
-    url reducida <br>
-    <input type="text" placeholder="bit.ly/sda12h">
+<div class="level">
+    <div class="level-item">
+        <form action="{{url_for('perfil')}}">
+            <button class="button is-info">Ir al perfil</button>
+        </form>
+    </div>
 </div>
 
-<form action="{{url_for('perfil')}}">
-    <button>Ir al perfil</button>
-</form>
+
 
 {% endblock%}
     
