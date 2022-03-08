@@ -1,27 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{%extends "layout.html"%}
+
+{%block body%}
+
+<div class="level">
+    <div class="level-item">
+        <h1 class="title">Bienvenido {{username}}</h1>
+    </div>
+</div>
     
-    <h1>Bienvenido {{username}}</h1>
-    Ligas publicas
-    <ul>
-        <li>Liga1</li>
-        <li>Liga2</li>
-    </ul>
 
-    <form action="{{url_for('add_link')}}">
-        <button>Agregar nuevo link</button>
-    </form>
+<div class="container">
+    <div class="columns">
+        <div class="column card">
+            <header class="card-header">
+              <p class="card-header-title">Ligas publicas</p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <ul>
+                    <li><a href="#">https://bit.ly/36Yvv9W</a>
+                        <span class="tag is-link is-warning">Musica</span></li>
+                </ul>              
+              </div>
+            </div>
+          </div>
+    
+          <div class="column card">
+            <header class="card-header">
+              <p class="card-header-title">Ligas privadas</p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <ul>
+                    <li><a href="#">https://bit.ly/36Yvv9W</a> 
+                        <span class="tag is-link is-info">Ciencia</span></li>
+                </ul>              
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
 
-    <form action="{{url_for('tablero')}}">
-        <button>Ir al tablero</button>
-    </form>
 
-</body>
-</html>
+
+<div class="level mt-6">
+    <div class="level-item">
+        <form action="{{url_for('add_link')}}">
+            <button class="button is-warning mr-5">Agregar nuevo link</button>
+        </form>
+    
+        <form action="{{url_for('tablero')}}">
+            <button class="button is-info">Ir al tablero</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+{%endblock%}
