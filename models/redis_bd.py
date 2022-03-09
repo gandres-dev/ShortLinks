@@ -206,12 +206,12 @@ def find_all_ligas_publicas() -> dict:
         url_to = url.decode("utf-8")
         llave_dict = f'{url_to}'
         dict_url = dictBytes_a_dictString(r.hgetall(llave_dict))
-        # categoria = dict_url['categoria']
-        # url_corta = dict_url['url_corta']        
-        # if not dict_categoria.get(categoria):            
-        #     dict_categoria[categoria] = [url_corta]            
-        # else:            
-        #     dict_categoria[categoria].append(url_corta)            
+        categoria = dict_url['categoria']
+        url_corta = dict_url['url_corta']        
+        if not dict_categoria.get(categoria):            
+            dict_categoria[categoria] = [url_corta]            
+        else:            
+            dict_categoria[categoria].append(url_corta)            
     return dict_categoria
 
 
