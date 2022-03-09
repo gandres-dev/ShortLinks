@@ -1,9 +1,19 @@
 # Fernando Vizuet -----------------------------------------------
 def conversion(url_larga: str) -> str:
     # Code here
+    '''
+    Esta función hace una reducción de un URL dado
+    y crea un par llave valor que te lleva al link
+    original.
+    '''
+    # ¡¡¡¡¡¡¡¡¡¡¡¡¡librerías necesarias!!!!!!!!!!!!!!
+    #import random
+    #import string
 
-    url_corta = "https://bit.ly/36Yvv9W"
-    return url_corta
+    letras = string.ascii_uppercase + string.ascii_lowercase + string.digits
+    new_url = 'https://bit.ly/' + ''.join(random.choice(letras) for i in range(4))
+    
+    return new_url
 
 
 def add_liga_publica(url_larga, categoria) -> bool:
@@ -22,6 +32,7 @@ def add_liga_publica(url_larga, categoria) -> bool:
 
     llaveDic = f"{url_larga}"
 
+    r.sadd('urls', url_larga)
     # Hacer la conversion liga publica
     url_corta = conversion(url_larga)
 
@@ -144,19 +155,30 @@ def add_user(username, age, password) -> bool:
     pass
 
 
-def verificar_usuario() -> bool:
+def verificar_usuario(username) -> bool:
     """Verifica si el usuario existe"""
     pass
 
 
 def find_all_ligas_publicas() -> list:
     """Encuentra todas las ligas publicas"""
-    pass
+
+    lista = []
+
+    for i in r.smembers('urls'):
+        lista.append(i.decode("utf-8"))
+    
+    return lista
 
 
 def find_all_liga_by_category(categoria) -> list:
     """Encuentras todas las lista del tal categoria"""
-    pass
 
+    lista = []
 
+    for i in find_all_ligas_publicas:
+        if r.hvals(i)[0].decode("utf-8") == categoria:
+            lista.append(r.hvals(i)[0].decode("utf-8"))
+    
+    return lista
 # -----------------------------------------------------------------
