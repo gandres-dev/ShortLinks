@@ -42,11 +42,11 @@
               <div class="content">
 
                 <!-- <p>{{ligas_priv}}</p> -->
-                <form action="{{url_for('eliminar_link')}}">    
+                <form action="{{url_for('eliminar_link')}}" method="post">    
                 {%for categoria in ligas_priv%}
                   {% for liga in ligas_priv[categoria]%}
                     <div class="">
-                      <input type="checkbox" id="link" name="link" value="link1"> 
+                      <input type="checkbox" id="link" name="link" value="{{liga}}"> 
                       <a href="#">{{liga}}</a>
                       <span class="tag is-link is-warning">{{categoria}}</span>
                     </div>     

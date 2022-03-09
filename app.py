@@ -74,12 +74,6 @@ def perfil():
 @app.route("/tablero")
 def tablero():
     ligas_publicas = find_all_ligas_publicas()   
-    # ligas_musica = ligas_publicas['Musica']   
-    # ligas_educacion = find_all_liga_by_category(categories[1])
-    # ligas_ciencia = find_all_liga_by_category(categories[2])
-    # print(ligas_musica)
-    # print(ligas_educacion)
-    # print(ligas_ciencia)
     return render_template("tablero.html", ligas_publicas=ligas_publicas)
 
 @app.route("/confirmacion")
@@ -89,9 +83,16 @@ def confirmacion():
 @app.route("/eliminar", methods=['GET', 'POST'])
 def eliminar_link():
     # Elimina link
-    print(request.form.getlist('link'))    
-    #borrar_liga(username, url_larga)
-    return render_template("index.html")
+    ligas = request.form.getlist('link')
+    print(ligas)
+    print(recuperar_listas(username))
+    for liga in ligas:
+        borrar_liga(username, liga, True)
+        borrar_liga(username, liga, False)
+    
+    print(recuperar_listas(username))
+    return redirect("/perfil")
+    
 
 if __name__ == "__main__":
     app.run(debug=True)

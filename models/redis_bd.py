@@ -14,7 +14,7 @@ if len(sys.argv) > 2:
 
 r = redis.Redis(host=host_defecto, port=puerto_defecto)
 
-#r.flushdb()
+# r.flushdb()
 
 # Fernando Vizuet -----------------------------------------------
 
@@ -142,7 +142,7 @@ def borrar_liga_pub(username, url_corta):
 
             break  # Termina el loop si ya se encontró
 
-    return url_larga
+    return True
 
 
 def borrar_liga_priv(username, url_corta):
@@ -161,7 +161,7 @@ def borrar_liga_priv(username, url_corta):
 
             break  # termina el loop si ya se encontró
 
-    return url_larga
+    return True
 
 
 # Función que elimina una liga especificando si es publica
@@ -188,7 +188,8 @@ def existe_usuario(username, password) -> bool:
     if not username or not password:
         return False
     existe = r.hmget(username, "password")
-    if existe:
+    print(existe)
+    if existe[0]:
         password_user = existe[0].decode("utf-8")
         if password_user == password:
             # print("Entro")
@@ -205,12 +206,12 @@ def find_all_ligas_publicas() -> dict:
         url_to = url.decode("utf-8")
         llave_dict = f'{url_to}'
         dict_url = dictBytes_a_dictString(r.hgetall(llave_dict))
-        categoria = dict_url['categoria']
-        url_corta = dict_url['url_corta']        
-        if not dict_categoria.get(categoria):            
-            dict_categoria[categoria] = [url_corta]            
-        else:            
-            dict_categoria[categoria].append(url_corta)            
+        # categoria = dict_url['categoria']
+        # url_corta = dict_url['url_corta']        
+        # if not dict_categoria.get(categoria):            
+        #     dict_categoria[categoria] = [url_corta]            
+        # else:            
+        #     dict_categoria[categoria].append(url_corta)            
     return dict_categoria
 
 
