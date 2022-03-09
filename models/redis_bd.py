@@ -33,6 +33,7 @@ def conversion(url_larga: str) -> str:
 
     return new_url
 
+
 # Fernando Avitua --------------------------------------------
 def add_liga_publica(url_larga, categoria) -> bool:
     """Agrega ligas publicas"""
@@ -61,7 +62,7 @@ def agregar_user(username, nombre, password):
 
 
 def add_liga_publica_user(username, url_larga, categoria) -> True:
-    """Agregar liga publicas en una estructura de datos de conjuntos"""    
+    """Agregar liga publicas en una estructura de datos de conjuntos"""
 
     # También debe agregar a la lista pública
     add_liga_publica(url_larga, categoria)
@@ -126,7 +127,7 @@ def recuperar_listas(username):
 
 
 # Delete
-def borrar_liga_pub(username, url_corta):
+def borrar_liga_priv(username, url_corta):
 
     for url_larga in r.smembers(f"lpriv_{username}"):
 
@@ -145,7 +146,7 @@ def borrar_liga_pub(username, url_corta):
     return True
 
 
-def borrar_liga_priv(username, url_corta):
+def borrar_liga_pub(username, url_corta):
 
     for url_larga in r.smembers(f"{username}_pub"):
 
@@ -155,6 +156,9 @@ def borrar_liga_priv(username, url_corta):
         if url_corta == url_corta1.decode("utf-8"):
             # Se quita la liga del conjunto username_pub
             r.srem(f"{username}_pub", url_larga)
+
+            # Se quita del conjunto url
+            r.srem("urls", url_larga)
 
             # Se elimina el diccionario con llave dicc_nombre
             r.delete(dicc_nombre)
@@ -183,6 +187,7 @@ def actualizar_liga(username, liga, categoria_nueva):
 
 # -----------------------------------------------------------------
 
+
 def existe_usuario(username, password) -> bool:
     """Verifica si el usuario existe"""
     if not username or not password:
@@ -199,19 +204,19 @@ def existe_usuario(username, password) -> bool:
 
 def find_all_ligas_publicas() -> dict:
     """Encuentra todas las ligas publicas"""
-    dict_categoria = {}    
+    dict_categoria = {}
     for url in r.smembers("urls"):
-        #lista.append(i.decode("utf-8"))
-        #lista.append((i.decode("utf-8"), r.get(i.decode("utf-8"))))        
+        # lista.append(i.decode("utf-8"))
+        # lista.append((i.decode("utf-8"), r.get(i.decode("utf-8"))))
         url_to = url.decode("utf-8")
-        llave_dict = f'{url_to}'
+        llave_dict = f"{url_to}"
         dict_url = dictBytes_a_dictString(r.hgetall(llave_dict))
-        categoria = dict_url['categoria']
-        url_corta = dict_url['url_corta']        
-        if not dict_categoria.get(categoria):            
-            dict_categoria[categoria] = [url_corta]            
-        else:            
-            dict_categoria[categoria].append(url_corta)            
+        categoria = dict_url["categoria"]
+        url_corta = dict_url["url_corta"]
+        if not dict_categoria.get(categoria):
+            dict_categoria[categoria] = [url_corta]
+        else:
+            dict_categoria[categoria].append(url_corta)
     return dict_categoria
 
 
