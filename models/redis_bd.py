@@ -1,4 +1,11 @@
+from tkinter.ttk import PanedWindow
+import redis
+
+r = redis.Redis(host="127.0.0.1", port=6379)
+
 # Fernando Vizuet -----------------------------------------------
+
+
 def conversion(url_larga: str) -> str:
     # Code here
 
@@ -17,7 +24,7 @@ def add_liga_publica(url_larga, categoria) -> bool:
 
 # ---------------------------------------------------------------
 
-### Fernando Avitua --------------------------------------------
+# Fernando Avitua --------------------------------------------
 def add_liga_publica(url_larga, categoria) -> bool:
 
     llaveDic = f"{url_larga}"
@@ -35,9 +42,8 @@ def dictBytes_a_dictString(diccionario):
 
 
 # Crear ligas de user
-
-
-def agregarUser(username, nombre, password):
+def agregar_user(username, nombre, password):
+    """Agrega al usuario a la base de datos"""
     exito = r.hmset(username, {"nombre": nombre, "password": password})
     return exito
 
@@ -70,15 +76,15 @@ def add_liga_privada_user(username, url_larga, categoria) -> True:
     url_corta = conversion(url_larga)
 
     exito = r.hmset(
-        f"{username}_{url_larga}", {"url_corta": url_corta, "categoria": categoria}
+        f"{username}_{url_larga}", {
+            "url_corta": url_corta, "categoria": categoria}
     )
     return exito
 
 
 # Read
-
-
-def recuperaListas(username, categoria=""):
+def recuperar_listas(username, categoria=""):
+    """Recuper lista (públicas/privadas preguntar)"""
     cjto_url_pri = r.smembers(f"lpriv_{username}")
     lista_url_pri = [si.decode("utf-8") for si in cjto_url_pri]
 
@@ -114,8 +120,6 @@ def recuperaListas(username, categoria=""):
 
 
 # Delete
-
-
 def borrarLiga(username, url_larga):
     key_url = f"{username}_{url_larga}"
     print(key_url)
@@ -123,8 +127,6 @@ def borrarLiga(username, url_larga):
 
 
 # Update
-
-
 def actualizarLiga(username, liga, categoria_nueva):
 
     key_liga = f"{username}_{liga}"
@@ -137,16 +139,17 @@ def actualizarLiga(username, liga, categoria_nueva):
 
 
 # Funciones que faltan implementar----------------------------------
-
-
-def add_user(username, age, password) -> bool:
-    """Agrega al usuario a la base de datos"""
-    pass
-
-
-def verificar_usuario() -> bool:
+def existe_usuario(username, password) -> bool:
     """Verifica si el usuario existe"""
-    pass
+    if not username or not password:
+        return False
+    existe = r.hmget(username, 'password')    
+    if existe:
+        password_user = existe[0].decode('utf-8')
+        if password_user == password:
+            #print("Entro")
+            return True
+    return False
 
 
 def find_all_ligas_publicas() -> list:

@@ -17,10 +17,24 @@
             </header>
             <div class="card-content">
               <div class="content">
-                <ul>
+                    <p>{{ligas_pub}}</p>
+                    <!-- <p>{{ligas_pub}}</p>
                     <li><a href="#">https://bit.ly/36Yvv9W</a>
-                        <span class="tag is-link is-warning">Musica</span></li>
-                </ul>              
+                        <span class="tag is-link is-warning">Musica</span>
+                    </li> -->
+                       
+                
+                      <div class="">
+                        <input type="checkbox" id="link" name="link" value="link1"> 
+                        <a href="#">https://bit.ly/36Yvv9W</a>
+                        <span class="tag is-link is-warning">Musica</span>
+                      </div>
+                      
+                      <input type="checkbox" id="link" name="link" value="link2"> 
+                      <a href="#">https://bit.ly/36Yvv9W</a>
+                      <span class="tag is-link is-warning">Musica</span>                
+                 
+
               </div>
             </div>
           </div>
@@ -31,10 +45,15 @@
             </header>
             <div class="card-content">
               <div class="content">
-                <ul>
+                <!-- <ul>
                     <li><a href="#">https://bit.ly/36Yvv9W</a> 
                         <span class="tag is-link is-info">Ciencia</span></li>
-                </ul>              
+                </ul>    -->
+               
+                  <input type="checkbox" name="link1" value="url_corto"> 
+                  <a href="#">https://bit.ly/36Yvv9W</a>
+                  <span class="tag is-link is-info">Musica</span>                  
+                
               </div>
             </div>
           </div>
@@ -50,7 +69,11 @@
         </form>
     
         <form action="{{url_for('tablero')}}">
-            <button class="button is-info">Ir al tablero</button>
+            <button class="button is-info mr-5">Ir al tablero</button>
+        </form>
+
+        <form action="{{url_for('eliminar_link')}}">
+          <button class="button is-danger mr-5">Eliminar link</button>
         </form>
     </div>
 </div>
