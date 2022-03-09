@@ -2,8 +2,19 @@ from tkinter.ttk import PanedWindow
 import redis
 import random
 import string
+import sys
 
-r = redis.Redis(host="127.0.0.1", port=6379)
+host_defecto = "127.0.0.1"
+puerto_defecto = 6379
+if len(sys.argv) > 1:
+    host_defecto = sys.argv[1]
+
+if len(sys.argv) > 2:
+    puerto_defecto = int(sys.argv[2])
+
+r = redis.Redis(host=host_defecto, port=puerto_defecto)
+
+#r.flushdb()
 
 # Fernando Vizuet -----------------------------------------------
 
@@ -22,24 +33,13 @@ def conversion(url_larga: str) -> str:
 
     return new_url
 
-
-def add_liga_publica(url_larga, categoria) -> bool:
-
-    # Hacer la conversion liga publica
-    url_corta = conversion(url_larga)
-
-    # Agregar a redis
-    return True
-
-
-# ---------------------------------------------------------------
-
 # Fernando Avitua --------------------------------------------
 def add_liga_publica(url_larga, categoria) -> bool:
-
+    """Agrega ligas publicas"""
     llaveDic = f"{url_larga}"
 
     r.sadd("urls", url_larga)
+
     # Hacer la conversion liga publica
     url_corta = conversion(url_larga)
 
@@ -49,6 +49,7 @@ def add_liga_publica(url_larga, categoria) -> bool:
 
 
 def dictBytes_a_dictString(diccionario):
+    """Codifica un dato de tipo binario a su correspondientes string utf-8"""
     return {k.decode("utf-8"): v.decode("utf-8") for k, v in diccionario.items()}
 
 
@@ -60,10 +61,7 @@ def agregar_user(username, nombre, password):
 
 
 def add_liga_publica_user(username, url_larga, categoria) -> True:
-    # Agregar liga publicas en una estructura de datos
-    # de conjuntos
-
-    # checar si existe user, no se necesita
+    """Agregar liga publicas en una estructura de datos de conjuntos"""    
 
     # También debe agregar a la lista pública
     add_liga_publica(url_larga, categoria)
@@ -76,11 +74,9 @@ def add_liga_publica_user(username, url_larga, categoria) -> True:
 
 
 def add_liga_privada_user(username, url_larga, categoria) -> True:
-    # Crear la estructura de liga privada
-    # y agregar url_larga,url_corta y categoria
+    """Crea la estructura de liga privada y agregar url_larga,url_corta y categoria"""
 
     # Creamos el set de ligas privadas
-
     r.sadd(f"lpriv_{username}", url_larga)
 
     # Creamos un diccionario por cada url_larga
@@ -146,13 +142,6 @@ def actualizar_liga(username, liga, categoria_nueva):
 
 # -----------------------------------------------------------------
 
-
-# Funciones que faltan implementar----------------------------------
-def add_user(username, age, password) -> bool:
-    """Agrega al usuario a la base de datos"""
-    pass
-
-
 def existe_usuario(username, password) -> bool:
     """Verifica si el usuario existe"""
     if not username or not password:
@@ -166,27 +155,32 @@ def existe_usuario(username, password) -> bool:
     return False
 
 
-def find_all_ligas_publicas() -> list:
+def find_all_ligas_publicas() -> dict:
     """Encuentra todas las ligas publicas"""
-
-    lista = []
-
-    for i in r.smembers("urls"):
-        lista.append(i.decode("utf-8"))
-
-    return lista
+    dict_categoria = {}    
+    for url in r.smembers("urls"):
+        #lista.append(i.decode("utf-8"))
+        #lista.append((i.decode("utf-8"), r.get(i.decode("utf-8"))))        
+        url_to = url.decode("utf-8")
+        llave_dict = f'{url_to}'
+        dict_url = dictBytes_a_dictString(r.hgetall(llave_dict))
+        categoria = dict_url['categoria']
+        url_corta = dict_url['url_corta']        
+        if not dict_categoria.get(categoria):            
+            dict_categoria[categoria] = [url_corta]            
+        else:            
+            dict_categoria[categoria].append(url_corta)            
+    return dict_categoria
 
 
 def find_all_liga_by_category(categoria) -> list:
     """Encuentras todas las lista del tal categoria"""
-
-    lista = []
-
-    for i in find_all_ligas_publicas:
-        if r.hvals(i)[0].decode("utf-8") == categoria:
-            lista.append(r.hvals(i)[0].decode("utf-8"))
-
-    return lista
+    # lista = []
+    # for i in find_all_ligas_publicas():
+    #     if r.hvals(i)[1].decode("utf-8") == categoria:
+    #         lista.append(r.hvals(i)[0].decode("utf-8"))
+    pass
+    # return lista
 
 
 # -----------------------------------------------------------------

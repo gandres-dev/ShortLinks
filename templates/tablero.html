@@ -5,19 +5,22 @@
     <div class="columns is-variable is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd">
         <div class="column card">
             <header class="card-header">
-              <p class="card-header-title">Ligas públicas más populares</p>
+              <p class="card-header-title">Todas las ligas públicas</p>
             </header>
             <div class="card-content">
-              <div class="content">
+              <div class="content">                
                 <ul>
-                    <li><a href="#">https://bit.ly/36Yvv9W</a>
-                        <span class="tag is-link is-warning">Musica</span></li>
-                </ul>              
+                    {% for categoria in ligas_publicas%}
+                      {% for liga in ligas_publicas[categoria] %}
+                        <li><a href="#">{{liga}}</a><span class="tag is-warning is-info ml-2">{{categoria}}</span></li>
+                      {% endfor %}                      
+                    {% endfor %}                    
+                </ul>
               </div>
             </div>
           </div>
     
-          <div class="column card">
+          <!-- <div class="column card">
             <header class="card-header">
               <p class="card-header-title">Categoria 1</p>
             </header>
@@ -43,7 +46,7 @@
                 </ul>              
               </div>
             </div>
-          </div>
+          </div> -->
     </div>
 </div>
 

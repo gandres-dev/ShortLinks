@@ -15,9 +15,16 @@ pip install -r requirements.txt
 
 ## Usage
 ~~~
-python app.py
+python app.py 127.0.0.1 6379
 ~~~
 
+- El tercer argumento sera la direccion ip donde se esta corriendo redis, por defecto es `127.0.0.1`.
+
+Para conocer la ip donde se esta corriendo de un contenedor de docker es con:
+
+`docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' contenedor_redis`
+
+- El cuarto argumento será el puerto donde esta escuchando redis, por defecto es `6379`.
 ---
 ##  Resources
 Flask
@@ -31,6 +38,6 @@ Redis with flask
 - https://youtu.be/CC_7BlTUtGw
 
 ## Contributors
-- Fernando Santa Rita Vizuet
-- Fernando Avitúa
-- @gandres-dev Guillermo Andrés
+- Fernando Santa Rita Vizuet ([@FSRV24](https://github.com/FSRV24) )
+- Fernando Avitúa ([@FunkySpiderman](https://github.com/FunkySpiderman) )
+- Guillermo Andrés ([@gandres-dev](https://github.com/gandres-dev) )

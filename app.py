@@ -1,9 +1,10 @@
+from unicodedata import category
 from flask import Flask, render_template, request, redirect
 from models.redis_bd import *
 
 app = Flask(__name__)
 username = ""
-
+categories = ["Musica", "Educacion", "Ciencia"]
 
 @app.route("/")
 def index():
@@ -33,8 +34,7 @@ def add_link():
         #print(url_larga); print(liga); print(categoria)
         print(liga)
         if liga == 'publico':
-            print("Se agrego liga publica")
-            print(url_larga)
+            #print("Se agrego liga publica")               
             add_liga_publica_user(username, url_larga, categoria)            
         else:
             # Significa que es liga privada          
@@ -73,7 +73,13 @@ def perfil():
 
 @app.route("/tablero")
 def tablero():
-    ligas_publicas = find_all_ligas_publicas()    
+    ligas_publicas = find_all_ligas_publicas()   
+    # ligas_musica = ligas_publicas['Musica']   
+    # ligas_educacion = find_all_liga_by_category(categories[1])
+    # ligas_ciencia = find_all_liga_by_category(categories[2])
+    # print(ligas_musica)
+    # print(ligas_educacion)
+    # print(ligas_ciencia)
     return render_template("tablero.html", ligas_publicas=ligas_publicas)
 
 @app.route("/confirmacion")
