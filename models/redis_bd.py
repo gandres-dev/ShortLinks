@@ -26,7 +26,7 @@ def conversion(url_larga: str) -> str:
     y crea un par llave valor que te lleva al link
     original.
     """
-    # Definimos una semilla    
+    # Definimos una semilla
     random.seed(sum([ord(c) for i, c in enumerate(url_larga)]))
     letras = string.ascii_uppercase + string.ascii_lowercase + string.digits
     new_url = "https://bit.ly/" + "".join(random.choice(letras) for i in range(4))
@@ -69,7 +69,7 @@ def add_liga_publica_user(username, url_larga, categoria) -> True:
     key_pub_usuario = f"{username}_pub"
 
     exito = r.sadd(key_pub_usuario, url_larga)
-    
+
     return exito
 
 
@@ -86,6 +86,7 @@ def add_liga_privada_user(username, url_larga, categoria) -> True:
         f"{username}_{url_larga}", {"url_corta": url_corta, "categoria": categoria}
     )
     return exito
+
 
 # Read
 def recuperar_listas(username):
@@ -124,11 +125,51 @@ def recuperar_listas(username):
     return categorias_pub, categorias_pri
 
 
-# def borrar_liga(username, url_corta):
-#     """Borrra la liga"""
-#     key_url = f"{username}_{url_larga}"
-#     print(key_url)
-#     return r.delete(key_url)
+# Delete
+def borrar_liga_pub(username, url_corta):
+
+    for url_larga in r.smembers(f"lpriv_{username}"):
+
+        dicc_nombre = f"{username}_{url_larga.decode('utf-8')}"
+        url_corta1 = r.hget(dicc_nombre, "url_corta")
+
+        if url_corta == url_corta1.decode("utf-8"):
+            # Se quita la liga del conjunto lpriv_username
+            r.srem(f"lpriv_{username}", url_larga)
+
+            # Se elimina el diccionario con llave dicc_nombre
+            r.delete(dicc_nombre)
+
+            break  # Termina el loop si ya se encontró
+
+    return url_larga
+
+
+def borrar_liga_priv(username, url_corta):
+
+    for url_larga in r.smembers(f"{username}_pub"):
+
+        dicc_nombre = f"{url_larga.decode('utf-8')}"
+        url_corta1 = r.hget(dicc_nombre, "url_corta")
+
+        if url_corta == url_corta1.decode("utf-8"):
+            # Se quita la liga del conjunto username_pub
+            r.srem(f"{username}_pub", url_larga)
+
+            # Se elimina el diccionario con llave dicc_nombre
+            r.delete(dicc_nombre)
+
+            break  # termina el loop si ya se encontró
+
+    return url_larga
+
+
+# Función que elimina una liga especificando si es publica
+def borrar_liga(username, url_corta, publico=True):
+    if publico:
+        return borrar_liga_pub(username, url_corta)
+
+    return borrar_liga_priv(username, url_corta)
 
 
 # Update
