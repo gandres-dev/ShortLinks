@@ -8,18 +8,18 @@ r = redis.Redis(host="127.0.0.1", port=6379)
 
 def conversion(url_larga: str) -> str:
     # Code here
-    '''
+    """
     Esta función hace una reducción de un URL dado
     y crea un par llave valor que te lleva al link
     original.
-    '''
+    """
     # ¡¡¡¡¡¡¡¡¡¡¡¡¡librerías necesarias!!!!!!!!!!!!!!
-    #import random
-    #import string
+    # import random
+    # import string
 
     letras = string.ascii_uppercase + string.ascii_lowercase + string.digits
-    new_url = 'https://bit.ly/' + ''.join(random.choice(letras) for i in range(4))
-    
+    new_url = "https://bit.ly/" + "".join(random.choice(letras) for i in range(4))
+
     return new_url
 
 
@@ -39,7 +39,7 @@ def add_liga_publica(url_larga, categoria) -> bool:
 
     llaveDic = f"{url_larga}"
 
-    r.sadd('urls', url_larga)
+    r.sadd("urls", url_larga)
     # Hacer la conversion liga publica
     url_corta = conversion(url_larga)
 
@@ -87,22 +87,21 @@ def add_liga_privada_user(username, url_larga, categoria) -> True:
     url_corta = conversion(url_larga)
 
     exito = r.hmset(
-        f"{username}_{url_larga}", {
-            "url_corta": url_corta, "categoria": categoria}
+        f"{username}_{url_larga}", {"url_corta": url_corta, "categoria": categoria}
     )
     return exito
 
 
 # Read
-def recuperar_listas(username, categoria=""):
-    """Recuper lista (públicas/privadas preguntar)"""
+def recuperaListas(username):
     cjto_url_pri = r.smembers(f"lpriv_{username}")
     lista_url_pri = [si.decode("utf-8") for si in cjto_url_pri]
 
     cjto_url_pub = r.smembers(f"{username}_pub")
     lista_url_pub = [si.decode("utf-8") for si in cjto_url_pub]
 
-    categorias = {}
+    categorias_pri = {}
+    categorias_pub = {}
     for url in lista_url_pri:
         llaveDic = f"{username}_{url}"
         dict_url = dictBytes_a_dictString(r.hgetall(llaveDic))
@@ -110,10 +109,10 @@ def recuperar_listas(username, categoria=""):
         cat = dict_url["categoria"]
         url_corta = dict_url["url_corta"]
 
-        if not categorias.get(cat):
-            categorias[cat] = [url_corta]
+        if not categorias_pri.get(cat):
+            categorias_pri[cat] = [url_corta]
         else:
-            categorias[cat].append(url_corta)
+            categorias_pri[cat].append(url_corta)
 
     for url in lista_url_pub:
         llaveDic = f"{url}"
@@ -122,12 +121,12 @@ def recuperar_listas(username, categoria=""):
         cat = dict_url["categoria"]
         url_corta = dict_url["url_corta"]
 
-        if not categorias.get(cat):
-            categorias[cat] = [url_corta]
+        if not categorias_pub.get(cat):
+            categorias_pub[cat] = [url_corta]
         else:
-            categorias[cat].append(url_corta)
+            categorias_pub[cat].append(url_corta)
 
-    return categorias
+    return categorias_pri, categorias_pub
 
 
 # Delete
@@ -154,15 +153,16 @@ def add_user(username, age, password) -> bool:
     """Agrega al usuario a la base de datos"""
     pass
 
+
 def existe_usuario(username, password) -> bool:
     """Verifica si el usuario existe"""
     if not username or not password:
         return False
-    existe = r.hmget(username, 'password')    
+    existe = r.hmget(username, "password")
     if existe:
-        password_user = existe[0].decode('utf-8')
+        password_user = existe[0].decode("utf-8")
         if password_user == password:
-            #print("Entro")
+            # print("Entro")
             return True
     return False
 
@@ -172,9 +172,9 @@ def find_all_ligas_publicas() -> list:
 
     lista = []
 
-    for i in r.smembers('urls'):
+    for i in r.smembers("urls"):
         lista.append(i.decode("utf-8"))
-    
+
     return lista
 
 
@@ -186,6 +186,8 @@ def find_all_liga_by_category(categoria) -> list:
     for i in find_all_ligas_publicas:
         if r.hvals(i)[0].decode("utf-8") == categoria:
             lista.append(r.hvals(i)[0].decode("utf-8"))
-    
+
     return lista
+
+
 # -----------------------------------------------------------------
