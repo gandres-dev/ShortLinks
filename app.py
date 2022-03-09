@@ -30,22 +30,30 @@ def add_link():
         url_larga = request.form.get('url_largo')
         liga = request.form.get('ligas')
         categoria = request.form.get('categoria')
-        print(url_larga); print(liga); print(categoria)
-        if liga == 'publica':
+        #print(url_larga); print(liga); print(categoria)
+        print(liga)
+        if liga == 'publico':
+            print("Se agrego liga publica")
+            print(url_larga)
             add_liga_publica_user(username, url_larga, categoria)            
         else:
             # Significa que es liga privada          
-            add_liga_privada_user(username, url_larga, categoria)        
-        return redirect('/confirmacion')
+            print("Se agrego liga privada")
+            print(url_larga)
+            add_liga_privada_user(username, url_larga, categoria)
+        url_corta = conversion(url_larga)      
+        print(url_corta)
+        #return redirect('/confirmacion', )
+        return render_template("/confirmacion.html", url_corta=url_corta)
     
 # Le indicamos que le van mandar una peticion POST a perfil
 @app.route("/perfil", methods=['GET', 'POST'])
 def perfil():
     global username
     if request.method == 'GET':
-        # Obtener las ligas publicas y privadas del usuario
-        ligas_pub = recuperar_listas(username)
-        return render_template("perfil.html", username=username, ligas_pub=ligas_pub)
+        # Obtener las ligas publicas y privadas del usuario        
+        ligas_pub, ligas_priv = recuperar_listas(username)  
+        return render_template("perfil.html", username=username, ligas_pub=ligas_pub, ligas_priv=ligas_priv)
     else:
         # Obtenemos el contenido de la petición
         username = request.form.get("username")
@@ -59,8 +67,9 @@ def perfil():
             # Le pasamos las ligas publicas y privadas que tiene el usuario            
             # ligas_pub = recurper_listar_publicas("username")
             # ligas_pri = recuperar_listas_privadas("usernae")
-            ligas_pub = ""   
-            return render_template("perfil.html", username=username, ligas_pub=ligas_pub)
+            
+            ligas_pub, ligas_priv = recuperar_listas(username)         
+            return render_template("perfil.html", username=username, ligas_pub=ligas_pub, ligas_priv=ligas_priv)
 
 @app.route("/tablero")
 def tablero():
@@ -71,13 +80,11 @@ def tablero():
 def confirmacion():
     return render_template("confirmacion.html")
 
-@app.route("/eliminar")
+@app.route("/eliminar", methods=['GET', 'POST'])
 def eliminar_link():
     # Elimina link
-    algo = request.form.getlist('link')
-    print(algo)
-    cosa = request.form.get("link")
-    print(cosa)
+    print(request.form.getlist('link'))    
+    #borrar_liga(username, url_larga)
     return render_template("index.html")
 
 if __name__ == "__main__":

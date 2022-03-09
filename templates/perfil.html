@@ -17,24 +17,19 @@
             </header>
             <div class="card-content">
               <div class="content">
-                    <p>{{ligas_pub}}</p>
-                    <!-- <p>{{ligas_pub}}</p>
-                    <li><a href="#">https://bit.ly/36Yvv9W</a>
-                        <span class="tag is-link is-warning">Musica</span>
-                    </li> -->
-                       
-                
-                      <div class="">
-                        <input type="checkbox" id="link" name="link" value="link1"> 
-                        <a href="#">https://bit.ly/36Yvv9W</a>
-                        <span class="tag is-link is-warning">Musica</span>
-                      </div>
-                      
-                      <input type="checkbox" id="link" name="link" value="link2"> 
-                      <a href="#">https://bit.ly/36Yvv9W</a>
-                      <span class="tag is-link is-warning">Musica</span>                
-                 
-
+                    <!-- <p>{{ligas_pub}}</p> -->
+                     <form action="{{url_for('eliminar_link')}}" method="post">
+                      {%for categoria in ligas_pub%}
+                        {% for liga in ligas_pub[categoria]%}
+                        <div>
+                            <input type="checkbox" id="link" name="link" value="{{liga}}"> 
+                            <a href="#">{{liga}}</a>
+                            <span class="tag is-link is-warning">{{categoria}}</span>
+                        </div>
+                        {% endfor%}
+                      {% endfor %}
+                      <button class="button is-danger mr-5">Eliminar link</button>
+                    </form>  
               </div>
             </div>
           </div>
@@ -45,14 +40,21 @@
             </header>
             <div class="card-content">
               <div class="content">
-                <!-- <ul>
-                    <li><a href="#">https://bit.ly/36Yvv9W</a> 
-                        <span class="tag is-link is-info">Ciencia</span></li>
-                </ul>    -->
-               
-                  <input type="checkbox" name="link1" value="url_corto"> 
-                  <a href="#">https://bit.ly/36Yvv9W</a>
-                  <span class="tag is-link is-info">Musica</span>                  
+
+                <!-- <p>{{ligas_priv}}</p> -->
+                <form action="{{url_for('eliminar_link')}}">    
+                {%for categoria in ligas_priv%}
+                  {% for liga in ligas_priv[categoria]%}
+                    <div class="">
+                      <input type="checkbox" id="link" name="link" value="link1"> 
+                      <a href="#">{{liga}}</a>
+                      <span class="tag is-link is-warning">{{categoria}}</span>
+                    </div>     
+                  {% endfor%}
+                {% endfor %}     
+                
+                  <button class="button is-danger mr-5">Eliminar link</button>
+                </form>          
                 
               </div>
             </div>
@@ -72,9 +74,7 @@
             <button class="button is-info mr-5">Ir al tablero</button>
         </form>
 
-        <form action="{{url_for('eliminar_link')}}">
-          <button class="button is-danger mr-5">Eliminar link</button>
-        </form>
+
     </div>
 </div>
 

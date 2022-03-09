@@ -1,5 +1,7 @@
 from tkinter.ttk import PanedWindow
 import redis
+import random
+import string
 
 r = redis.Redis(host="127.0.0.1", port=6379)
 
@@ -13,10 +15,8 @@ def conversion(url_larga: str) -> str:
     y crea un par llave valor que te lleva al link
     original.
     """
-    # ¡¡¡¡¡¡¡¡¡¡¡¡¡librerías necesarias!!!!!!!!!!!!!!
-    # import random
-    # import string
-
+    # Definimos una semilla    
+    random.seed(sum([ord(c) for i, c in enumerate(url_larga)]))
     letras = string.ascii_uppercase + string.ascii_lowercase + string.digits
     new_url = "https://bit.ly/" + "".join(random.choice(letras) for i in range(4))
 
@@ -71,7 +71,7 @@ def add_liga_publica_user(username, url_larga, categoria) -> True:
     key_pub_usuario = f"{username}_pub"
 
     exito = r.sadd(key_pub_usuario, url_larga)
-
+    
     return exito
 
 
@@ -91,9 +91,8 @@ def add_liga_privada_user(username, url_larga, categoria) -> True:
     )
     return exito
 
-
 # Read
-def recuperaListas(username):
+def recuperar_listas(username):
     cjto_url_pri = r.smembers(f"lpriv_{username}")
     lista_url_pri = [si.decode("utf-8") for si in cjto_url_pri]
 
@@ -126,18 +125,18 @@ def recuperaListas(username):
         else:
             categorias_pub[cat].append(url_corta)
 
-    return categorias_pri, categorias_pub
+    return categorias_pub, categorias_pri
 
 
-# Delete
-def borrarLiga(username, url_larga):
-    key_url = f"{username}_{url_larga}"
-    print(key_url)
-    return r.delete(key_url)
+# def borrar_liga(username, url_corta):
+#     """Borrra la liga"""
+#     key_url = f"{username}_{url_larga}"
+#     print(key_url)
+#     return r.delete(key_url)
 
 
 # Update
-def actualizarLiga(username, liga, categoria_nueva):
+def actualizar_liga(username, liga, categoria_nueva):
 
     key_liga = f"{username}_{liga}"
     exito = r.hset(name=key_liga, key="categoria", value=categoria_nueva)
