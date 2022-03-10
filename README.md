@@ -1,4 +1,7 @@
 # Short links
+
+![img](img/app.png)
+
 Sistema de reducción de URLs
 - Soporta el manejo de usuarios.
 - Permitir que se tengan ligas publicas y ligas privadas.
@@ -7,15 +10,22 @@ Sistema de reducción de URLs
 
 ## Installation
 ~~~
+# Opcional para crear un entorno virtual.
 python3 -m venv env
 source env/bin/activate
+
+# Necesario para instalar todos los paquetes.
 pip install -r requirements.txt
 ~~~
 ---
 
 ## Usage
 ~~~
+# Opcional poner los parametros.
 python app.py 127.0.0.1 6379
+
+# Si no se ponen se usaran los valores por defecto.
+python app.py
 ~~~
 
 - El tercer argumento sera la direccion ip donde se esta corriendo redis, por defecto es `127.0.0.1`.
@@ -26,16 +36,6 @@ Para conocer la ip donde se esta corriendo de un contenedor de docker es con:
 
 - El cuarto argumento será el puerto donde esta escuchando redis, por defecto es `6379`.
 ---
-##  Resources
-Flask
-
-- https://youtu.be/Yz1gUwXPPJw
-- https://youtu.be/i_zS8nt7LGk
-
-Redis with flask
-
-- https://youtu.be/sgJZna1fJH4
-- https://youtu.be/CC_7BlTUtGw
 
 ## Contributors
 - Fernando Santa Rita Vizuet ([@FSRV24](https://github.com/FSRV24) )
