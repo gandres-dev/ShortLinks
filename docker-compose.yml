@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  app:
+    image: shortlinks
+    build: .
+    environment:
+      REDIS_URL: 'redis_db'
+    depends_on:
+      - redis_db
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/usr/src/app
+
+  redis_db:
+    image: redis

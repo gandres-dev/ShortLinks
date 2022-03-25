@@ -1,8 +1,8 @@
-from tkinter.ttk import PanedWindow
 import redis
 import random
 import string
 import sys
+import os
 
 host_defecto = "127.0.0.1"
 puerto_defecto = 6379
@@ -11,6 +11,10 @@ if len(sys.argv) > 1:
 
 if len(sys.argv) > 2:
     puerto_defecto = int(sys.argv[2])
+
+# Verificamos si existe esa variable de entorno
+if os.environ['REDIS_URL']:
+    host_defecto = os.environ['REDIS_URL']
 
 r = redis.Redis(host=host_defecto, port=puerto_defecto)
 
