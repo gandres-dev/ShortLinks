@@ -6,12 +6,21 @@ services:
     build: .
     environment:
       REDIS_URL: 'redis_db'
-    depends_on:
-      - redis_db
+      REDIS2_URL: 'redis_db2'
+      REDIS3_URL: 'redis_db3'
     ports:
       - "5000:5000"
     volumes:
       - .:/usr/src/app
 
   redis_db:
-    image: redis
+    build: ./docker/redis-cluster
+    command: ["redis_cluster.conf"]
+          
+  redis_db2:
+    build: ./docker/redis-cluster
+    command: ["redis_cluster.conf"]
+
+  redis_db3:
+    build: ./docker/redis-cluster
+    command: ["redis_cluster.conf"]

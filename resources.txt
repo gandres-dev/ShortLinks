@@ -1,0 +1,5 @@
+https://github.com/redis/redis-py#cluster-mode
+https://docs.docker.com/compose/gettingstarted/
+https://stackoverflow.com/questions/27409761/docker-multiple-dockerfiles-in-project
+https://stackoverflow.com/questions/42248198/how-to-mount-a-single-file-in-a-volume
+https://redis-py-doc.readthedocs.io/en/master/
