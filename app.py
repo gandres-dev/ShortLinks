@@ -1,4 +1,3 @@
-from unicodedata import category
 from flask import Flask, render_template, request, redirect
 from models.redis_bd import *
 

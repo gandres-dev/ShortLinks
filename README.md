@@ -37,6 +37,36 @@ Para conocer la ip donde se esta corriendo de un contenedor de docker es con:
 - El cuarto argumento será el puerto donde esta escuchando redis, por defecto es `6379`.
 ---
 
+
+## Usage with Docker in Cluster
+Para arrancar la arquitectura tendremos que correr:
+~~~
+# Crea los contenedores de las imagenes indicadas y crea toda una red.
+docker-compose up
+
+# Eliminar todos los recursos ocupando, como los contenedores creados y la red.
+docker-compose down
+~~~
+
+La primera vez que ejecute la aplicación no correra, porque es necesario especificar que crearemos un 
+cluster, solo se hace una sola vez. Para ello ingresaremos a cualquier de los contenedores y le diremos:
+~~~
+# Ingresamos a un contenedor
+docker exec -it shortlinks_redis_cluster3_1 bash
+
+# Comando para conocer las ip de los contenedores
+$ ./hosts2ip.sh
+
+# Le indicamos que crearemos un cluster con este par de nodos.
+redis-cli --cluster create 172.18.0.7:6379 172.18.0.2:6379 172.18.0.5:6379 172.18.0.4:6379 172.18.0.6:6379 172.18.0.3:6379 --cluster-replicas 1
+~~~
+Con esto le indicamos que cree un cluster y que haga una replica por cada nodo, es decir 3 master y 3 esclavos.
+
+Una vez hecho el cluster, volvemos a ejecutar la aplicación y ahora funcionara correctamente.
+~~~
+docker-compose up
+~~~
+
 ## Contributors
 - Fernando Santa Rita Vizuet ([@FSRV24](https://github.com/FSRV24) )
 - Fernando Avitúa ([@FunkySpiderman](https://github.com/FunkySpiderman) )

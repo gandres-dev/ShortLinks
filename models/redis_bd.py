@@ -3,6 +3,7 @@ import random
 import string
 import sys
 import os
+import redis
 from redis.cluster import RedisCluster as Redis
 from redis.cluster import ClusterNode
 
@@ -19,12 +20,11 @@ if len(sys.argv) > 2:
 if os.environ['REDIS_URL']:
     host_defecto = os.environ['REDIS_URL']
 
+# Porque estamos conectados en la misma red es posible usar el nombre del contenedor
+r = Redis(host='redis_db', port=6379) 
+print(r.get_nodes()) 
 
-nodes = [ClusterNode(os.environ['REDIS_URL'], 6379), ClusterNode(os.environ['REDIS_URL'], 6378)]
-rc = Redis(startup_nodes=nodes)
-print(rc.get_nodes())
 #r = redis.Redis(host=host_defecto, port=puerto_defecto)
-r = ""
 # r.flushdb()
 
 # Fernando Vizuet -----------------------------------------------

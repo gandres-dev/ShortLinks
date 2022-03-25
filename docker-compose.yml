@@ -6,8 +6,6 @@ services:
     build: .
     environment:
       REDIS_URL: 'redis_db'
-      REDIS2_URL: 'redis_db2'
-      REDIS3_URL: 'redis_db3'
     ports:
       - "5000:5000"
     volumes:
@@ -17,10 +15,22 @@ services:
     build: ./docker/redis-cluster
     command: ["redis_cluster.conf"]
           
-  redis_db2:
+  redis_cluster2:
     build: ./docker/redis-cluster
     command: ["redis_cluster.conf"]
 
-  redis_db3:
+  redis_cluster3:
     build: ./docker/redis-cluster
     command: ["redis_cluster.conf"]
+
+  redis_cluster4:
+      build: ./docker/redis-cluster
+      command: ["redis_cluster.conf"]
+
+  redis_cluster5:
+      build: ./docker/redis-cluster
+      command: ["redis_cluster.conf"]
+
+  redis_cluster6:
+      build: ./docker/redis-cluster
+      command: ["redis_cluster.conf"]        

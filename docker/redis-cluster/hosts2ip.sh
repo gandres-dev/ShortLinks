@@ -1,5 +1,5 @@
 # Usar nombres sin espacios
-hostnames="redis_cluster1
+hostnames="redis_db
 redis_cluster2
 redis_cluster3
 redis_cluster4
