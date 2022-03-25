@@ -15,3 +15,7 @@ services:
 
   redis_db:
     image: redis
+
+  redis_replica:
+    image: redis
+    command: ["--replicaof redis_db 6379"]

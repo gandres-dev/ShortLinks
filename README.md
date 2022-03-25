@@ -37,6 +37,18 @@ Para conocer la ip donde se esta corriendo de un contenedor de docker es con:
 - El cuarto argumento será el puerto donde esta escuchando redis, por defecto es `6379`.
 ---
 
+## Usage with Docker 
+Creamos la arquitectura que seran todos los componentes de nuestra aplicación:
+~~~
+# Crea los contenedores de las imagenes indicadas y crea toda una red.
+docker-compose up
+
+# Eliminar todos los recursos ocupando, como los contenedores creados y la red.
+docker-compose down
+~~~
+Una vez hecho esto estará todo listo para usarse.
+
+
 ## Contributors
 - Fernando Santa Rita Vizuet ([@FSRV24](https://github.com/FSRV24) )
 - Fernando Avitúa ([@FunkySpiderman](https://github.com/FunkySpiderman) )
